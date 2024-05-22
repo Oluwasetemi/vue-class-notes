@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   count: {
@@ -9,6 +9,9 @@ const props = defineProps({
 })
 
 const counter = ref(props.count)
+
+const doubleCounter = computed(() => counter.value * 2)
+
 </script>
 
 <template>
@@ -24,6 +27,7 @@ const counter = ref(props.count)
       -
     </button>
     <span m="auto" p="2">{{ counter }}</span>
+    <span m="auto" p="2">{{ doubleCounter }}</span>
     <button
       border="l main"
       p="2"

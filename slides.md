@@ -425,7 +425,9 @@ Non-code blocks are ignored.
 
 ```vue {*|2|4}
 <!-- v-on | @ | modifiers-stop,prevent,capture,self,{keyAlias},once,left,middle,passive -->
+const dynamic = 'click'
 <button v-on:click="doThis"></button>
+<button v-on:[dynamic]="doThis"></button>
 <button v-on:click="doThat('hello', $event)"></button>
 <button @click="doThis"></button>
 <button @click.stop="doThis"></button>
@@ -457,7 +459,7 @@ Non-code blocks are ignored.
 </template>
 ```
 
-```vue {}
+```html {*}
 <!-- v-slot content, fallback content, named slot, conditional slots, dynamic slot names, scoped Slots -->
 <template>
   <FancyButton>
@@ -524,11 +526,11 @@ Non-code blocks are ignored.
 </div>
 <div>
 
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
+<!-- ./components/FancyButton.vue -->
+<FancyButton>
+  <template #icon>+</template>
+  <!-- <span>Span plus sign</span> -->
+</FancyButton>
 
 </div>
 </div>
