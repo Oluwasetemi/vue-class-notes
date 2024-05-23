@@ -75,8 +75,8 @@ const router = createRouter({
        {
         path: '/about',
         name: 'About',
-        component:()=>import('./AboutView.vue'),
-        meta: {
+        component:()=>import('./AboutView.vue'),//allows for lazy loading
+        meta: { //meta is used for search engine optimization
              title: 'About',
              description: 'This is the about page'
          }
