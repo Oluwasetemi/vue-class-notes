@@ -433,11 +433,13 @@ const dynamic = 'click'
 <button v-on:click="doThis"></button>
 <button v-on:[dynamic]="doThis"></button>
 <button v-on:click="doThat('hello', $event)"></button>
+<!--The shorthand of v-on is @ -->
 <button @click="doThis"></button>
 <button @click.stop="doThis"></button>
 <button @click.prevent="doThis"></button>
 <form @submit.prevent></form>
 
+<!--Using v-on(@) on a button, with an argument(click),a modifier(.stop.prevent), and a value(="doThis") -->
 <button @click.stop.prevent="doThis"></button>
 
 <input @keyup.enter="onEnter" />
@@ -489,9 +491,10 @@ const dynamic = 'click'
 ```
 
 ```vue {*}
-  <span v-pre>{{ this will not be compiled }}</span>
+<span v-pre>{{ this will not be compiled }}</span>
 ```
 ```vue {*}
+<!--V-once renders the element and component only once, and skips future updates-->
   <div v-once>
     <h1>Comment</h1>
     <p>{{msg}}</p>
@@ -504,6 +507,7 @@ const dynamic = 'click'
   </div>
 ```
 ```vue
+<!--v-cloak is used to hide raw templates until the component is ready-->
 <div v-cloak>
   {{ message }}
 </div>
