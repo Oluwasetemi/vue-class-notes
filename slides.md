@@ -52,6 +52,8 @@ The last comment block of each slide will be treated as slide notes. It will be 
 
 # What is Vuejs?
 
+TODO:
+
 <br>
 <br>
 
@@ -515,13 +517,164 @@ const dynamic = 'click'
 
 ---
 
+# Vue Reactivity with `ref` and `reactive`
+
+```ts twoslash
+import { reactive, ref } from 'vue'
+
+const state = reactive({
+  apiData: null,
+});
+
+const stateRef = ref(null)
+```
+
+---
+
+# Methods
+
+```ts {monaco-run}
+import { ref } from 'vue';
+
+const count = ref(0)
+
+function increment() {
+  count.value++
+}
+
+function decrement() {
+  count.value--
+}
+
+increment()
+increment()
+increment()
+console.log(count.value)
+decrement()
+console.log(count.value)
+```
+
+---
+
+# LifeCycle hooks
+
+<div>
+<img src="https://vuejs.org/assets/lifecycle.MuZLBFAS.png" alt="Picture Showing LifeCycle Hooks" srcset="">
+</div>
+
+<style>
+
+  img {
+    height: 450px;
+    object-fit: contain;
+    width: -webkit-fill-available;
+  }
+</style>
+---
+
+# LifeCycle hooks
+
+```ts {monaco-run}
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  console.log('App will log this before mounting')
+})
+
+console.log('App')
+```
+
+- `onUpdated`
+- `onUnmounted`
+
+---
+
+# LifeCycle hooks `onMounted`
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const el = ref()
+
+onMounted(() => {
+  el.value // <div>
+})
+</script>
+
+<template>
+  <div ref="el"></div>
+</template>
+```
+
+---
+
+# LifeCycle hooks `onUpdated`
+
+```vue
+<script setup>
+import { ref, onUpdated } from 'vue'
+
+const count = ref(0)
+
+onUpdated(() => {
+  // text content should be the same as current `count.value`
+  console.log(document.getElementById('count').textContent);
+});
+</script>
+
+<template>
+  <button id="count" @click="count++">{{ count }}</button>
+</template>
+```
+
+---
+
+# LifeCycle hooks `onUnmounted`
+
+```vue
+<script setup>
+import { onMounted, onUnmounted } from 'vue'
+
+let intervalId
+onMounted(() => {
+  intervalId = setInterval(() => {
+    // ...
+  })
+})
+
+onUnmounted(() => clearInterval(intervalId))
+</script>
+```
+
+[Read More](https://vuejs.org/api/composition-api-lifecycle.html)
+---
+
+# Conditional Rendering
+
+TODO:
+
+---
+
+# Computed Properties
+
+TODO:
+
+---
+
+# Watchers
+
+TODO:
+
+---
+
 # Components
 
 <div grid="~ cols-2 gap-4">
 <div>
 
 <!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
+<Counter :count="10" m="t-4" firstName="AltSchool" lastName="Africa" />
 
 </div>
 <div>
@@ -549,18 +702,101 @@ Also, HTML elements are valid:
 
 # Component Details
 
-- Global and Local Registration
+- Global using `.js` and Local Registration using `.vue`
 - Props
 - Event
-- Slots
-- Custom Directives
+- V-model in Parent Child component(works in only input, textarea and select)
+- [Slots](https://vuejs.org/guide/components/slots.html)
+- Provide / Inject
+
+Read More about [Dynamic Component](https://vuejs.org/guide/essentials/component-basics.html#dynamic-components) and [Async Component](https://vuejs.org/guide/components/async.html)
+
+TODO: create slide content for each of the sub topic on Components
 
 ---
 
-# Data Fetching
+# Example of V-model in Parent and Child Component
+
+<!-- ./components/V-model/App.vue -->
+<App />
 
 ---
 
-# Routing
+# Data Fetching using LifeCycle Hook `onMounted`
+
+```ts {all|1|3-5|7|9|11|16|17|all} twoslash
+import { computed, reactive, onMounted, ref } from 'vue'
+
+const state = reactive({
+  apiData: null,
+});
+
+const stateRef = ref(null)
+
+onMounted(
+  () => {
+    fetch('https://api.github.com/users/Oluwasetemi')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        // set value to reactive state | ref
+        state.apiData = data
+        stateRef.value = data
+      });
+  }
+)
+
+```
+
+<arrow v-click="[9, 10]" x1="350" y1="310" x2="195" y2="390" color="#953" width="2" arrowSize="1" />
+---
+
+# Data Fetching using `onMounted` and `watchEffect`
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+import { watchEffect, reactive, onMounted, ref } from 'vue'
+
+const username = ref(null)
+const state = reactive({
+  apiData: null,
+});
+
+onMounted(() => {
+  watchEffect(
+    () => {
+      fetch(`https://api.github.com/users/${username}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+          // set value to reactive state | ref
+          state.apiData = data
+        });
+    }
+  )
+})
+
+```
+
+<arrow v-click="[9, 10]" x1="350" y1="310" x2="195" y2="390" color="#953" width="2" arrowSize="1" />
 
 ---
+
+# [Routing](https://router.vuejs.org/guide/)
+
+TODO: list the setup involved in setting up a vue-router
+---
+
+# [State Management](https://vuejs.org/guide/scaling-up/state-management.html)
+
+TODO: list the setup involved in setting up state management
+---
+
+# [State Management](https://pinia.vuejs.org/)
+
+TODO: list the setup involved in setting up state management with Pina
+
+---
+
+# sample slide
+
+TODO: just write markdown and mix with html with the cool features of slidev
