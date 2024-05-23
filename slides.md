@@ -797,6 +797,11 @@ TODO: list the setup involved in setting up state management with Pina
 
 ---
 
+# Repo List Used For Teaching
+
+TODO: add the repo we used for the teaching
+---
+
 # sample slide
 
 TODO: just write markdown and mix with html with the cool features of slidev
