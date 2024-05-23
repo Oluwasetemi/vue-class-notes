@@ -283,8 +283,8 @@ Notes can also sync with clicks
 ```
 
 ```vue {*|1-2|3-4|3-4,8}
-<!-- shorthand -->
-<button :id="dynamicId">Reset</button>
+<!-- shorthand version of v-bind is : -->
+<button :id="dynamicId">Reset</button> 
 <button :disabled="disabled">Reset</button>
 <img :src="srcPath" :alt="imageAlt" />
 
@@ -297,13 +297,15 @@ Notes can also sync with clicks
 ```
 
 ```vue {*|2-3|5|*}
-<!-- // same name shorthand -->
+<!-- // same-name shorthand(they share the same attribute name(id) and variable name(id)) -->
 <button :id>Reset</button>
 <button :id="id">Reset</button>
-<!-- Boolean value -->
+
+<!-- Boolean value(its value is either true or false) -->
 <button :disabled>Reset</button>
 <button :disabled="disabled">Reset</button>
 
+<!--Double binding: v-bind allows us bind more than one thing-->
 <img :src v-bind:alt />
 <div v-bind:id></div>
 
@@ -319,7 +321,7 @@ Notes can also sync with clicks
 Non-code blocks are ignored.
 
 ```vue
-<!-- using one value for multiple binding -->
+<!-- using one object variable for multiple binding -->
 <script setup>
   const multipleBinding = {
     id: 'unique-id',
