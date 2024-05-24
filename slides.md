@@ -51,6 +51,7 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ---
 
 # What is Vuejs?
+
 <br>
 Vue.js is a popular open-source JavaScript framework specifically desgined for building user interfaces (UIs) and single-page applicaions(SPAs).
 
@@ -176,6 +177,35 @@ doubled.value = 2
 ```
 
 <arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="334" color="#953" width="2" arrowSize="1" />
+---
+
+# Code Runners
+
+```vue {monaco-run}
+<script setup>
+import { computed, ref } from 'vue'
+const counter = ref(1);
+const value = 2
+const doubled = computed(() => counter.value * value);
+function inc() { counter.value++ }
+</script>
+
+<template>
+  <div class="select-none text-lg flex gap-4 items-center">
+    <span class="text-gray text-lg">
+      <span class="text-orange">{{ counter }}</span>
+      * {{ value }} =
+      <span class="text-green">{{ doubled }}</span>
+    </span>
+    <button class="border border-main p2 rounded" @click="inc">+1</button>
+    <button class="border border-main p2 rounded" @click="counter -= 1">-1</button>
+  </div>
+</template>
+```
+
+<!--
+The idea here is super sweet with tailwind like css and ability to render code is powerful and the opportunities here is endless.
+-->
 
 ---
 
@@ -226,9 +256,11 @@ Non-code blocks are ignored.
 
 # Template Syntax
 
-<v-click>
-- Text Interpolation
-</v-click>
+<ul>
+  <li>
+  <span v-mark.underline.red="">Text Interpolation</span>
+  </li>
+</ul>
 
 <<< @/snippets/template-syntax/1.html#snippet
 
@@ -463,7 +495,6 @@ const dynamic = 'click'
 
 ```html {*}
 <!-- v-slot content, fallback content, named slot, conditional slots, dynamic slot names, scoped Slots -->
-<template>
   <FancyButton>
     Click me! <!-- slot content -->
   </FancyButton>
@@ -483,24 +514,27 @@ const dynamic = 'click'
       <!-- content for the header slot -->
     </template>
   </BaseLayout>
-</template>
 ```
 
-```vue {*}
+```html {1|*}
+  <span v-pre>{{ this will not be compiled }}</span>
   <span v-pre>{{ this will not be compiled }}</span>
 ```
+
 ```vue {*}
   <div v-once>
     <h1>Comment</h1>
     <p>{{msg}}</p>
   </div>
 ```
-```vue
+
+```html
   <div v-for="item in list" :key="item.id" v-memo="[item.id === selected]">
     <p>ID: {{ item.id }} - selected: {{ item.id === selected }}</p>
     <p>...more child nodes</p>
   </div>
 ```
+
 ```vue
 <div v-cloak>
   {{ message }}
@@ -533,7 +567,7 @@ const stateRef = ref(null)
 
 # Methods
 
-```ts {monaco-run}
+```ts {monaco-run} {autorun: false}
 import { ref } from 'vue';
 
 const count = ref(0)
@@ -651,16 +685,25 @@ onUnmounted(() => clearInterval(intervalId))
 ---
 
 # Conditional Rendering
-In Vue.js, conditional rendering allows you to dynamically control which parts of your component's template are displayed based on certain conditions. This is a powerful feature that helps create interactive and responsive user interfaces.<br> 
-We have:<ul><li>v-if</li><li>v-show</li><li>v-else</li><li>v-else-if</li></ul>
-<ConditionalRendering></ConditionalRendering>
+
+In Vue.js, conditional rendering allows you to dynamically control which parts of your component's template are displayed based on certain conditions. This is a powerful feature that helps create interactive and responsive user interfaces.
+
+We have:
+
+- `v-if`
+- `v-show`
+- `v-else`
+- `v-else-if`
+
+<ConditionalRendering />
 
 ---
 
 # Computed Properties
+
 A computed property is used to declaratively describe a value that depends on other values. <br>
 Computed properties save you time and make your code cleaner by automatically reflecting changes in your data.
-<ComputedProperties></ComputedProperties>
+<ComputedProperties />
 <p>Check the ComputedProperties.vue component for the code.</p>
 
 ---
