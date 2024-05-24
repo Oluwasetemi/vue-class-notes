@@ -850,9 +850,16 @@ TODO: list the setup involved in setting up state management with Pina
 
 # Repo List Used For Teaching
 
-TODO: add the repo we used for the teaching
+- [Vue AltSchool v3 teaching](https://github.com/Oluwasetemi/vue-altschool-v3-teaching)
+
 ---
 
 # sample slide
 
 TODO: just write markdown and mix with html with the cool features of slidev
+---
+
+# Contributors - Thank you all
+
+- [Chidinma Nwosu](https://github.com/Oluwasetemi/vue-class-notes/pull/1)
+- [Kofoworola Shonuyi](https://github.com/Oluwasetemi/vue-class-notes/pull/2)
