@@ -789,11 +789,125 @@ TODO: list the setup involved in setting up a vue-router
 # [State Management](https://vuejs.org/guide/scaling-up/state-management.html)
 
 TODO: list the setup involved in setting up state management
+
+In Vue js, there are numerous ways of managing states. Although Vuejs shares data between multiple components through the use of props. The issue with this approach is that props are unidirectional. We can only pass data or props from parent to child to grandchild, but not the other way round. Even though Custom events try to fix this, it still has its own limitations as we can not pass data to other components with either of two, and this is where the following state management come to place
+## 1. Setting Up State Mgt Using Global Objects and Event Bus
+
+#### Using Global Objects
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  export const savedGlobalState = { count: 0 };
+```
+#### Using Event Bus
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  import Vue from 'vue';
+  export const savedEventBus = new Vue();
+```
+---
+# [State Management](https://vuejs.org/guide/scaling-up/state-management.html)
+
+## 2. Setting Up State Mgt Using Composition API(`ref` and `reactive`)
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  import { ref } from 'vue';
+  const savedStateUsingRef = ref(0);
+```
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  import { reactive } from 'vue';
+  const savedStateUsingReactive = reactive({ count: 0 });
+```
+
+## 3. Setting Up State Management Using Vuex
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  import Vuex from 'vuex';
+  export default new Vuex.Store({
+    state: { 
+      itemCount: 0
+    },
+    mutations: { 
+      addItem(state) {
+        state.itemCount++;
+      },
+      removeItem(state){
+        if (state.itemCount > 0) {
+          state.itemCount--;
+        }
+      }
+    }
+  })
+```
 ---
 
 # [State Management](https://pinia.vuejs.org/)
 
 TODO: list the setup involved in setting up state management with Pina
+
+### Setting up State Mgt using Pinia
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  import { defineStore } from 'pinia';
+  export const useCounterStore = defineStore({
+    id: 'counter',
+    state: () => ({ 
+      count: 0 
+    }),
+    actions: { 
+      increaseCount() { 
+        this.count++;
+      },
+      decreaseCount(){
+        this.count--;
+      }
+    },
+    getters: {
+      oddOrEven: (state) => {
+        if (state.count % 2 === 0) return 'even'
+        return 'odd'
+      }
+    }
+  });
+```
+
+```ts {all|1|3-5|7|9|11|16|all} twoslash
+  <div id="app">
+    <button @click="piniaCounterStore.increaseCount">Pinia Count: {{ piniaCounterStore.count }}</button>
+  </div>
+
+
+  <script>
+    const { createPinia, defineStore } = Pinia;
+    const pinia = createPinia();
+    const useCounterStore = defineStore({
+    id: 'counter',
+    state: () => ({ 
+      count: 0 
+    }),
+    actions: { 
+      increaseCount() { 
+        this.count++;
+      },
+      decreaseCount(){
+        this.count--;
+      }
+    },
+    getters: {
+      oddOrEven: (state) => {
+        if (state.count % 2 === 0) return 'even'
+        return 'odd'
+      }
+    }
+  }
+
+    const { createApp } = Vue;
+    createApp({
+      setup() {
+        const piniaCounterStore = useCounterStore();
+        return { piniaCounterStore };
+      }
+    }).use(pinia).mount('#app');
+  </script>
+```
 
 ---
 
