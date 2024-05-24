@@ -315,7 +315,7 @@ Notes can also sync with clicks
 ```
 
 ```vue {*|1-2|3-4|3-4,8}
-<!-- shorthand -->
+<!-- shorthand version of v-bind is : -->
 <button :id="dynamicId">Reset</button>
 <button :disabled="disabled">Reset</button>
 <img :src="srcPath" :alt="imageAlt" />
@@ -329,13 +329,15 @@ Notes can also sync with clicks
 ```
 
 ```vue {*|2-3|5|*}
-<!-- // same name shorthand -->
+<!-- // same-name shorthand(they share the same attribute name(id) and variable name(id)) -->
 <button :id>Reset</button>
 <button :id="id">Reset</button>
-<!-- Boolean value -->
+
+<!-- Boolean value(its value is either true or false) -->
 <button :disabled>Reset</button>
 <button :disabled="disabled">Reset</button>
 
+<!--Double binding: v-bind allows us bind more than one thing-->
 <img :src v-bind:alt />
 <div v-bind:id></div>
 
@@ -351,7 +353,7 @@ Notes can also sync with clicks
 Non-code blocks are ignored.
 
 ```vue
-<!-- using one value for multiple binding -->
+<!-- using one object variable for multiple binding -->
 <script setup>
   const multipleBinding = {
     id: 'unique-id',
@@ -463,11 +465,13 @@ const dynamic = 'click'
 <button v-on:click="doThis"></button>
 <button v-on:[dynamic]="doThis"></button>
 <button v-on:click="doThat('hello', $event)"></button>
+<!--The shorthand of v-on is @ -->
 <button @click="doThis"></button>
 <button @click.stop="doThis"></button>
 <button @click.prevent="doThis"></button>
 <form @submit.prevent></form>
 
+<!--Using v-on(@) on a button, with an argument(click),a modifier(.stop.prevent), and a value(="doThis") -->
 <button @click.stop.prevent="doThis"></button>
 
 <input @keyup.enter="onEnter" />
@@ -516,12 +520,12 @@ const dynamic = 'click'
   </BaseLayout>
 ```
 
-```html {1|*}
-  <span v-pre>{{ this will not be compiled }}</span>
-  <span v-pre>{{ this will not be compiled }}</span>
+```vue {*}
+<span v-pre>{{ this will not be compiled }}</span>
 ```
 
 ```vue {*}
+<!--V-once renders the element and component only once, and skips future updates-->
   <div v-once>
     <h1>Comment</h1>
     <p>{{msg}}</p>
@@ -536,6 +540,7 @@ const dynamic = 'click'
 ```
 
 ```vue
+<!--v-cloak is used to hide raw templates until the component is ready-->
 <div v-cloak>
   {{ message }}
 </div>
