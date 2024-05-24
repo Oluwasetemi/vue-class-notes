@@ -8,6 +8,7 @@ export default defineShikiSetup((): ShikiSetupReturn => {
       'js',
       'vue',
       'html',
+      'shell',
     ],
   }
 })

@@ -834,6 +834,149 @@ onMounted(() => {
 
 # [Routing](https://router.vuejs.org/guide/)
 
+````md magic-move {at:2}
+```shell
+// 1, Install vue router using npm, set the router up
+npm install vue-router@latest
+```
+
+```vue
+<script setup>
+// Create a folder called View, setup vue components that will be used as view,three files in it(HomeView.vue, AboutView.vue, and NotFoundView.vue)
+</script>
+<!--HomeView.vue-->
+<template>
+    <div>
+        <h1>Home</h1>
+        <p>This is the home page</p>
+    </div>
+</template>
+<!--AboutView.vue-->
+<template>
+    <div>
+        <h1>About</h1>
+        <p>This is the about page</p>
+    </div>
+</template>
+<!--NotFoundView.vue-->
+<template>
+    <div>
+        <h1>Not found</h1>
+        <p>This is the 404 page</p>
+    </div>
+</template>
+```
+
+```vue
+<!--3. Define your router-view and router-link for proper navigation in our App.vue-->
+<!--import two components {router-link, router-view}-->
+<script>
+import {routerLink,routerView} from 'vue-router'
+</script>
+<!--create a navigation bar with links to the home, about, and not found pages-->
+<template>
+    <h1>Header</h1>
+    <nav>
+        <RouterLink to="/">Home</routerLink>
+        <RouterLink to="/about">About</routerLink>
+        <RouterLink to="/not-found">Not found</routerLink>
+    </nav>
+    <!-- this is the view where each components will be rendered -->
+    <RouterView/>
+</template>
+```
+
+```vue
+<!--4. create a file to hold your router instance,
+import {createRouter,createWebHistory} from 'vue-router' in (index.js),
+routes are defined in an array, each route should be an object with at least a path and a component.-->
+<script>
+import {createRouter, createWebHistory } from 'vue-router'
+
+import HomeView from './HomeView.vue'
+
+//create a route instance using VueRouter
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+    {
+        path: '/',
+        name: 'Home',
+        component: HomeView,
+        meta: {
+            title: 'Home',
+            description: 'This is the home page'
+        }
+    },
+  ]
+})
+export default router
+</script>
+```
+
+```json
+// more routes object can be provided
+[
+   {
+        path: '/about',
+        name: 'About',
+        props: (route) => ({ page: parseInt(route.query.page) || 1 }),
+        component:()=>import('./AboutView.vue'),//allows for lazy loading
+        meta: { //meta is used for search engine optimization
+             title: 'About',
+             description: 'This is the about page'
+         }
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: 'not-found',
+        component:()=>import('./NotFoundView.vue'),
+        meta: {
+            title: 'Not found',
+            description: 'This is the 404 page'
+        }
+    }
+]
+```
+
+```json
+// nested routes object
+ [
+    {
+      path: '/repo/:name/:id',
+      name: 'RepoLayout',
+      props: true,
+      component: RepoLayoutView,
+      children: [
+        {
+          path: '',
+          name: 'SingleRepoView',
+          component: () => import('../views/SingleRepoView.vue')
+        },
+        {
+          path: 'details',
+          name: 'RepoDetails',
+          component: () => import('../views/RepoDetailsView.vue')
+        }
+      ]
+    },
+  ]
+```
+
+```js
+import { createApp } from 'vue'
+
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(router)
+
+app.mount('#app')
+```
+````
+
 TODO: list the setup involved in setting up a vue-router
 ---
 
