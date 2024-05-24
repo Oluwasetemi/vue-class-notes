@@ -804,6 +804,17 @@ TODO: list the setup involved in setting up state management
 
 TODO: list the setup involved in setting up state management with Pina
 
+Pinia is a store library for Vue, it allows you to share a state across components/pages. The setup involved in setting up state management with Pina:
+
+Step 1: pnpm install pinia
+
+step 2: create a folder called stores in your project root and create a file named todos.js inside it.
+
+step 3: Modify your main entry file (usually main.js) to include pinia.
+
+step 4: In your vue components, use the store directly by importing and calling the useTodos function.
+
+
 ---
 
 # Repo List Used For Teaching
