@@ -51,8 +51,8 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ---
 
 # What is Vuejs?
-
-TODO:
+<br>
+Vue.js is a popular open-source JavaScript framework specifically desgined for building user interfaces (UIs) and single-page applicaions(SPAs).
 
 <br>
 <br>
@@ -651,14 +651,17 @@ onUnmounted(() => clearInterval(intervalId))
 ---
 
 # Conditional Rendering
-
-TODO:
+In Vue.js, conditional rendering allows you to dynamically control which parts of your component's template are displayed based on certain conditions. This is a powerful feature that helps create interactive and responsive user interfaces.<br> 
+We have:<ul><li>v-if</li><li>v-show</li><li>v-else</li><li>v-else-if</li></ul>
+<ConditionalRendering></ConditionalRendering>
 
 ---
 
 # Computed Properties
-
-TODO:
+A computed property is used to declaratively describe a value that depends on other values. <br>
+Computed properties save you time and make your code cleaner by automatically reflecting changes in your data.
+<ComputedProperties></ComputedProperties>
+<p>Check the ComputedProperties.vue component for the code.</p>
 
 ---
 
