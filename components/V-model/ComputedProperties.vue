@@ -1,11 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 
-const firstName = ref("");
-const lastName = ref("");
+const firstName = ref('');
+const lastName = ref('');
 
 const fullName = computed(() => {
-  return firstName.value + " " + lastName.value;
+  return firstName.value + ' ' + lastName.value;
 });
 </script>
 
@@ -27,11 +27,16 @@ const fullName = computed(() => {
 <style scoped>
 .name {
   display: flex;
+  & > input {
+    border: solid black;
+  }
+  html.dark & > input {
+    border: solid white;
+  }
+
 }
+
 p {
   color: darkblue;
-}
-input {
-  color: gray;
 }
 </style>
