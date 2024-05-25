@@ -51,6 +51,7 @@ The last comment block of each slide will be treated as slide notes. It will be 
 ---
 
 # What is Vuejs?
+
 <br>
 Vue.js is a popular open-source JavaScript framework specifically desgined for building user interfaces (UIs) and single-page applicaions(SPAs).
 
@@ -176,6 +177,35 @@ doubled.value = 2
 ```
 
 <arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="334" color="#953" width="2" arrowSize="1" />
+---
+
+# Code Runners
+
+```vue {monaco-run}
+<script setup>
+import { computed, ref } from 'vue'
+const counter = ref(1);
+const value = 2
+const doubled = computed(() => counter.value * value);
+function inc() { counter.value++ }
+</script>
+
+<template>
+  <div class="select-none text-lg flex gap-4 items-center">
+    <span class="text-gray text-lg">
+      <span class="text-orange">{{ counter }}</span>
+      * {{ value }} =
+      <span class="text-green">{{ doubled }}</span>
+    </span>
+    <button class="border border-main p2 rounded" @click="inc">+1</button>
+    <button class="border border-main p2 rounded" @click="counter -= 1">-1</button>
+  </div>
+</template>
+```
+
+<!--
+The idea here is super sweet with tailwind like css and ability to render code is powerful and the opportunities here is endless.
+-->
 
 ---
 
@@ -226,9 +256,11 @@ Non-code blocks are ignored.
 
 # Template Syntax
 
-<v-click>
-- Text Interpolation
-</v-click>
+<ul>
+  <li>
+  <span v-mark.underline.red="">Text Interpolation</span>
+  </li>
+</ul>
 
 <<< @/snippets/template-syntax/1.html#snippet
 
@@ -284,7 +316,7 @@ Notes can also sync with clicks
 
 ```vue {*|1-2|3-4|3-4,8}
 <!-- shorthand version of v-bind is : -->
-<button :id="dynamicId">Reset</button> 
+<button :id="dynamicId">Reset</button>
 <button :disabled="disabled">Reset</button>
 <img :src="srcPath" :alt="imageAlt" />
 
@@ -467,7 +499,6 @@ const dynamic = 'click'
 
 ```html {*}
 <!-- v-slot content, fallback content, named slot, conditional slots, dynamic slot names, scoped Slots -->
-<template>
   <FancyButton>
     Click me! <!-- slot content -->
   </FancyButton>
@@ -487,12 +518,12 @@ const dynamic = 'click'
       <!-- content for the header slot -->
     </template>
   </BaseLayout>
-</template>
 ```
 
 ```vue {*}
 <span v-pre>{{ this will not be compiled }}</span>
 ```
+
 ```vue {*}
 <!--V-once renders the element and component only once, and skips future updates-->
   <div v-once>
@@ -500,12 +531,14 @@ const dynamic = 'click'
     <p>{{msg}}</p>
   </div>
 ```
-```vue
+
+```html
   <div v-for="item in list" :key="item.id" v-memo="[item.id === selected]">
     <p>ID: {{ item.id }} - selected: {{ item.id === selected }}</p>
     <p>...more child nodes</p>
   </div>
 ```
+
 ```vue
 <!--v-cloak is used to hide raw templates until the component is ready-->
 <div v-cloak>
@@ -539,7 +572,7 @@ const stateRef = ref(null)
 
 # Methods
 
-```ts {monaco-run}
+```ts {monaco-run} {autorun: false}
 import { ref } from 'vue';
 
 const count = ref(0)
@@ -657,16 +690,25 @@ onUnmounted(() => clearInterval(intervalId))
 ---
 
 # Conditional Rendering
-In Vue.js, conditional rendering allows you to dynamically control which parts of your component's template are displayed based on certain conditions. This is a powerful feature that helps create interactive and responsive user interfaces.<br> 
-We have:<ul><li>v-if</li><li>v-show</li><li>v-else</li><li>v-else-if</li></ul>
-<ConditionalRendering></ConditionalRendering>
+
+In Vue.js, conditional rendering allows you to dynamically control which parts of your component's template are displayed based on certain conditions. This is a powerful feature that helps create interactive and responsive user interfaces.
+
+We have:
+
+- `v-if`
+- `v-show`
+- `v-else`
+- `v-else-if`
+
+<ConditionalRendering />
 
 ---
 
 # Computed Properties
+
 A computed property is used to declaratively describe a value that depends on other values. <br>
 Computed properties save you time and make your code cleaner by automatically reflecting changes in your data.
-<ComputedProperties></ComputedProperties>
+<ComputedProperties />
 <p>Check the ComputedProperties.vue component for the code.</p>
 
 ---
@@ -792,6 +834,149 @@ onMounted(() => {
 
 # [Routing](https://router.vuejs.org/guide/)
 
+````md magic-move {at:2}
+```shell
+// 1, Install vue router using npm, set the router up
+npm install vue-router@latest
+```
+
+```vue
+<script setup>
+// Create a folder called View, setup vue components that will be used as view,three files in it(HomeView.vue, AboutView.vue, and NotFoundView.vue)
+</script>
+<!--HomeView.vue-->
+<template>
+    <div>
+        <h1>Home</h1>
+        <p>This is the home page</p>
+    </div>
+</template>
+<!--AboutView.vue-->
+<template>
+    <div>
+        <h1>About</h1>
+        <p>This is the about page</p>
+    </div>
+</template>
+<!--NotFoundView.vue-->
+<template>
+    <div>
+        <h1>Not found</h1>
+        <p>This is the 404 page</p>
+    </div>
+</template>
+```
+
+```vue
+<!--3. Define your router-view and router-link for proper navigation in our App.vue-->
+<!--import two components {router-link, router-view}-->
+<script>
+import {routerLink,routerView} from 'vue-router'
+</script>
+<!--create a navigation bar with links to the home, about, and not found pages-->
+<template>
+    <h1>Header</h1>
+    <nav>
+        <RouterLink to="/">Home</routerLink>
+        <RouterLink to="/about">About</routerLink>
+        <RouterLink to="/not-found">Not found</routerLink>
+    </nav>
+    <!-- this is the view where each components will be rendered -->
+    <RouterView/>
+</template>
+```
+
+```vue
+<!--4. create a file to hold your router instance,
+import {createRouter,createWebHistory} from 'vue-router' in (index.js),
+routes are defined in an array, each route should be an object with at least a path and a component.-->
+<script>
+import {createRouter, createWebHistory } from 'vue-router'
+
+import HomeView from './HomeView.vue'
+
+//create a route instance using VueRouter
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+    {
+        path: '/',
+        name: 'Home',
+        component: HomeView,
+        meta: {
+            title: 'Home',
+            description: 'This is the home page'
+        }
+    },
+  ]
+})
+export default router
+</script>
+```
+
+```json
+// more routes object can be provided
+[
+   {
+        path: '/about',
+        name: 'About',
+        props: (route) => ({ page: parseInt(route.query.page) || 1 }),
+        component:()=>import('./AboutView.vue'),//allows for lazy loading
+        meta: { //meta is used for search engine optimization
+             title: 'About',
+             description: 'This is the about page'
+         }
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: 'not-found',
+        component:()=>import('./NotFoundView.vue'),
+        meta: {
+            title: 'Not found',
+            description: 'This is the 404 page'
+        }
+    }
+]
+```
+
+```json
+// nested routes object
+ [
+    {
+      path: '/repo/:name/:id',
+      name: 'RepoLayout',
+      props: true,
+      component: RepoLayoutView,
+      children: [
+        {
+          path: '',
+          name: 'SingleRepoView',
+          component: () => import('../views/SingleRepoView.vue')
+        },
+        {
+          path: 'details',
+          name: 'RepoDetails',
+          component: () => import('../views/RepoDetailsView.vue')
+        }
+      ]
+    },
+  ]
+```
+
+```js
+import { createApp } from 'vue'
+
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(router)
+
+app.mount('#app')
+```
+````
+
 TODO: list the setup involved in setting up a vue-router
 ---
 
@@ -808,9 +993,16 @@ TODO: list the setup involved in setting up state management with Pina
 
 # Repo List Used For Teaching
 
-TODO: add the repo we used for the teaching
+- [Vue AltSchool v3 teaching](https://github.com/Oluwasetemi/vue-altschool-v3-teaching)
+
 ---
 
 # sample slide
 
 TODO: just write markdown and mix with html with the cool features of slidev
+---
+
+# Contributors - Thank you all
+
+- [Chidinma Nwosu](https://github.com/Oluwasetemi/vue-class-notes/pull/1)
+- [Kofoworola Shonuyi](https://github.com/Oluwasetemi/vue-class-notes/pull/2)
