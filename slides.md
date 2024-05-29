@@ -532,7 +532,8 @@ const dynamic = 'click'
   </div>
 ```
 
-```html
+```vue
+<!-- a v-memo -->
   <div v-for="item in list" :key="item.id" v-memo="[item.id === selected]">
     <p>ID: {{ item.id }} - selected: {{ item.id === selected }}</p>
     <p>...more child nodes</p>
@@ -977,54 +978,112 @@ app.mount('#app')
 ```
 ````
 
-TODO: list the setup involved in setting up a vue-router
 ---
 
 # [State Management](https://vuejs.org/guide/scaling-up/state-management.html)
 
 In Vue js, there are numerous ways of managing states. Although Vuejs shares data between multiple components through the use of props. The issue with this approach is that props are unidirectional. We can only pass data or props from parent to child to grandchild, but not the other way round. Even though Custom events try to fix this, it still has its own limitations as we can not pass data to other components with either of two, and this is where the following state management come to place
-## 1. Setting Up State Mgt Using Global Objects and Event Bus
-  
-  Using Global Objects 
-  ```ts
-    export const savedGlobalState = { count: 0 };
-  ```
-  
-  Using Event Bus 
-  ```ts
-  import Vue from 'vue';
-  export const savedEventBus = new Vue();
-  ```
+
+- Props
+- Event Bus
+- Simple State Management with Reactivity API
+- Vuex or Pinia
+
+---
+
+# 1. Emitting and Listening to Event from Child to Parent
+
+````md magic-move
+```vue {all|1|3-5|all}
+<template>
+  <!-- Child -->
+<button @click="$emit('someEvent')">Click Me</button>
+<button @click="$emit('someEvent', data)">Click Me</button>
+</template>
+```
+
+
+```vue
+<!-- Parent -->
+<script setup>
+function increaseCount(n) {
+  count.value += n
+}
+</script>
+
+<template>
+  <MyComponent @some-event="callback" />
+  <MyComponent @some-event.once="callback" />
+  <MyButton @increase-by="(n) => count += n" />
+  <MyButton @increase-by="increaseCount" />
+</template>
+```
+
+```vue
+<script setup>
+  const emit = defineEmits(['inFocus', 'submit'])
+
+  function buttonClick() {
+    emit('submit')
+  }
+</script>
+```
+````
 
 ---
 
 # [Continuation: State Management - Composition API](https://vuejs.org/guide/scaling-up/state-management.html)
 
-## 2. Setting Up State Mgt Using Composition API(`ref` and `reactive`)
-<br>
+## 2. Simple State Management with Reactivity API
 
-```ts {all|1|3-5|7|9|11|16|all} twoslash
-  import { ref } from 'vue';
-  const savedStateUsingRef = ref(0);
+<br />
+````md magic-move
+```js {all|1|3-5|all}
+// store.js
+import { reactive } from 'vue'
+
+export const store = reactive({
+  count: 0
+})
+
 ```
 
-```ts {all|1|3-5|7|9|11|16|all} twoslash
-  import { reactive } from 'vue';
-  const savedStateUsingReactive = reactive({ count: 0 });
+
+```vue
+<!-- ComponentA.vue -->
+<script setup>
+import { store } from './store.js'
+</script>
+
+<template>From A: {{ store.count }}</template>
 ```
+
+```vue
+<!-- ComponentB.vue -->
+<script setup>
+import { store } from './store.js'
+</script>
+
+<template>From B: {{ store.count }}</template>
+```
+
+````
 
 ---
 
 # [Continuation: State Management - VUEX](https://vuejs.org/guide/scaling-up/state-management.html)
 
 ## 3. Setting Up State Management Using Vuex
-```ts {all|1|3-5|7|9|11|16|all} twoslash
+
+````md magic-move
+```vue
+<script>
   import Vuex from 'vuex';
   export default new Vuex.Store({
-    state: { 
+    state: {
       itemCount: 0
     },
-    mutations: { 
+    mutations: {
       addItem(state) {
         state.itemCount++;
       },
@@ -1035,22 +1094,25 @@ In Vue js, there are numerous ways of managing states. Although Vuejs shares dat
       }
     }
   })
+</script>
 ```
+````
 
 ---
 
 # [Continuation: State Management- Pinia](https://pinia.vuejs.org/)
 
-###### 4. Setting up State Mgt using Pinia
-```ts {all|1|3-5|7|9|11|16|all} twoslash
+````md magic-move
+```vue {all|1|3-5|7|9|11|16|all}
+<script>
 import { defineStore } from 'pinia';
 export const useCounterStore = defineStore({
   id: 'counter',
-  state: () => ({ 
-    count: 0 
+  state: () => ({
+    count: 0
   }),
-  actions: { 
-    increaseCount() { 
+  actions: {
+    increaseCount() {
       this.count++;
     },
     decreaseCount(){
@@ -1064,15 +1126,66 @@ export const useCounterStore = defineStore({
     }
   }
 });
+</script>
 ```
 
-<arrow v-click="[9, 10]" x1="350" y1="310" x2="195" y2="390" color="#953" width="2" arrowSize="1" />
+```js
+import { createPinia } from 'pinia'
+
+app.use(createPinia())
+
+app.mount('#app')
+```
+
+```vue
+<script>
+  import {useCounterStore} from '@state/counter.js'
+
+  const store = useCounterStore()
+
+  console.log(store.count);
+  store.increaseCount()
+</script>
+
+```
+````
+
+---
+
+```vue {monaco}
+<script setup>
+
+export const useTodoListStore = defineStore('todoList', {
+  state: () => ({
+    todoList: [],
+    id: 0
+  }),
+  actions: {
+    addTodo(item) {
+      this.todoList.push({ item, id: this.id++, completed: false })
+    },
+    deleteTodo(itemId) {
+      this.todoList = this.todoList.filter((object) => {
+        return object.id !== itemId
+      })
+    },
+    toggleCompleted(idToFind) {
+      const todo = this.todoList.find((obj) => obj.id === idToFind)
+      if (todo) {
+        todo.completed = !todo.completed
+      }
+    }
+  }
+})
+</script>
+```
 
 ---
 
 # Repo List Used For Teaching
 
 - [Vue AltSchool v3 teaching](https://github.com/Oluwasetemi/vue-altschool-v3-teaching)
+- [Pinia Setup](https://github.com/Oluwasetemi/vue-pinia-fifth)
 
 ---
 
@@ -1085,3 +1198,4 @@ TODO: just write markdown and mix with html with the cool features of slidev
 
 - [Chidinma Nwosu](https://github.com/Oluwasetemi/vue-class-notes/pull/1)
 - [Kofoworola Shonuyi](https://github.com/Oluwasetemi/vue-class-notes/pull/2)
+- [Segun Olawale & Abosede Racheal](https://github.com/Oluwasetemi/vue-class-notes/pull/3)
