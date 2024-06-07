@@ -1046,6 +1046,15 @@ export const store = reactive({
   count: 0
 })
 
+// main.js - last thing after `app.use` before `app.mount`
+app.provide('Gstore', store)
+// enable other component to inject the store
+```
+
+```js
+import {inject} from 'vue'
+
+const store = inject('Gstore')
 ```
 
 
