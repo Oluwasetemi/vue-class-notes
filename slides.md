@@ -181,7 +181,7 @@ doubled.value = 2
 
 # Code Runners
 
-```vue {monaco-run}
+```vue {monaco-run} {autorun: false}
 <script setup>
 import { computed, ref } from 'vue'
 const counter = ref(1);
@@ -191,7 +191,7 @@ function inc() { counter.value++ }
 </script>
 
 <template>
-  <div class="select-none text-lg flex gap-4 items-center">
+  <div class="select-none text-lg flex gap-4 items-center p2 border border-main">
     <span class="text-gray text-lg">
       <span class="text-orange">{{ counter }}</span>
       * {{ value }} =
@@ -201,6 +201,35 @@ function inc() { counter.value++ }
     <button class="border border-main p2 rounded" @click="counter -= 1">-1</button>
   </div>
 </template>
+```
+
+<!--
+The idea here is super sweet with tailwind like css and ability to render code is powerful and the opportunities here is endless.
+-->
+
+---
+
+# Code Runners
+
+```jsx {monaco-run}
+function Hello() {
+  let useState = React.useState;
+  const [counter, setCounter] = React.useState(0);
+  const value = 2;
+  const doubled = counter * value
+
+  return (
+    <div className="select-none text-lg flex gap-4 items-center p2 border border-main">
+    <span className="text-gray text-lg">
+      <span className="text-orange">{ counter }</span>{' '}
+      * { value } = {' '}
+      <span className="text-green">{ doubled }</span>
+    </span>
+    <button className="border border-main p2 rounded" onClick={() => setCounter(counter + 1)}>+1</button>
+    <button className="border border-main p2 rounded" onClick={() => setCounter(counter - 1)}>-1</button>
+  </div>
+  );
+}
 ```
 
 <!--
@@ -716,6 +745,8 @@ Computed properties save you time and make your code cleaner by automatically re
 
 # Watchers
 
+<Hello />
+
 TODO:
 
 ---
@@ -837,7 +868,7 @@ onMounted(() => {
 
 ````md magic-move {at:2}
 ```shell
-// 1, Install vue router using npm, set the router up
+//  1, Install vue router using npm, set the router up
 npm install vue-router@latest
 ```
 
@@ -1161,7 +1192,9 @@ app.mount('#app')
 
 ---
 
-```vue {monaco}
+# Todo App Store
+
+```vue {2,3|5|*}
 <script setup>
 
 export const useTodoListStore = defineStore('todoList', {
@@ -1198,9 +1231,53 @@ export const useTodoListStore = defineStore('todoList', {
 
 ---
 
-# sample slide
+# Using TypeScript With Vuejs.
 
-TODO: just write markdown and mix with html with the cool features of slidev
+---
+layout: two-cols
+---
+
+<template v-slot:default>
+
+# Left
+
+This shows on the left
+
+</template>
+<template v-slot:right>
+
+# Right
+
+This shows on the right
+
+</template>
+
+---
+layout: two-cols
+---
+# Left
+
+This shows on the left.
+
+::right::
+
+# Right
+
+This shows on the right
+---
+
+# Using TypeScript With Vuejs
+
+- Typing Component Props
+- Typing Component Emits
+- Typing ref()
+- Typing reactive()
+- Typing computed()
+- Typing Event Handlers
+- Typing Provide / Inject
+- Typing Template Refs
+- Typing Component Template Refs
+
 ---
 
 # Contributors - Thank you all
