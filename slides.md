@@ -434,6 +434,7 @@ Non-code blocks are ignored.
 
 ```vue {*|2-4|7|2-4,7|*}
 <!-- v-html -->
+<!--If it is user provided data, properly sanitize your HTML to prevent cross site scripting(XSS)-->
 <template>
   <div v-html="html"></div>
 </template>
@@ -563,6 +564,7 @@ const dynamic = 'click'
 
 ```vue
 <!-- a v-memo -->
+<!-- Use a unique identifier for key to avoid bug-->
   <div v-for="item in list" :key="item.id" v-memo="[item.id === selected]">
     <p>ID: {{ item.id }} - selected: {{ item.id === selected }}</p>
     <p>...more child nodes</p>
@@ -596,6 +598,9 @@ const state = reactive({
 });
 
 const stateRef = ref(null)
+
+// it is recommended to use ref() as the primary API for declaring reactive state due to reactive limitations.
+// Read more on ref and reactive https://vuejs.org/guide/essentials/reactivity-fundamentals.html#declaring-reactive-state-1
 ```
 
 ---

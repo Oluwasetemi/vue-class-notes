@@ -2,7 +2,7 @@
 <!-- Inside ./snippets/vue/directives/1.vue -->
 <template>
   <span v-text="msg"></span> <span>{{msg}}</span>
-  <div v-html="html"></div><!--If it is user provided data, properly sanitize your HTML to prevent cross site scripting(XSS)-->
+  <div v-html="html"></div>
 
   <!--conditional rendering(v-show, v-if, v-else, v-else-if)-->
   <h1 v-show="ok">Hello!</h1> <!-- display: none -->
