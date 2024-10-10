@@ -3,7 +3,7 @@
 import IconAccountBox from '~icons/mdi/github';
 </script>
 <template>
-  <footer class="absolute bottom-0 right-0 p-2 mb-9 mr-9">
+  <footer class="absolute bottom-0 right-0 p-2 mb-2 mr-9 ">
     <a
       href="https://github.com/users/Oluwasetemi"
       target="_blank"
