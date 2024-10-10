@@ -1082,8 +1082,17 @@ export const store = reactive({
   count: 0
 })
 
+// main.js - last thing after `app.use` before `app.mount`
+app.provide('Gstore', store)
+// enable other component to inject the store
+
 ```
 
+```js
+import {inject} from 'vue'
+
+const store = inject('Gstore')
+```
 
 ```vue
 <!-- ComponentA.vue -->
@@ -1227,9 +1236,10 @@ export const useTodoListStore = defineStore('todoList', {
 
 ---
 
-# Using TypeScript With Vuejs.
+# Using TypeScript With Vuejs
 
 ---
+
 layout: two-cols
 ---
 
@@ -1249,8 +1259,10 @@ This shows on the right
 </template>
 
 ---
+
 layout: two-cols
 ---
+
 # Left
 
 This shows on the left.
