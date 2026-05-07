@@ -1,0 +1,44 @@
+{
+  "name": "vue-note",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=8192 --max-http-header-size=16384 --no-warnings' PLAYWRIGHT_TIMEOUT=300000 SLIDEV_TIMEOUT=300000 slidev build --base=/",
+    "build:pdf": "cross-env NODE_OPTIONS='--openssl-legacy-provider --max_old_space_size=8192 --max-http-header-size=16384 --no-warnings' PLAYWRIGHT_TIMEOUT=300000 SLIDEV_TIMEOUT=300000 slidev export --timeout 300000",
+    "dev": "slidev ./slides.md --open=false --log=info",
+    "export": "slidev export",
+    "export:pdf": "npm run export -- --timeout 160000 --output ./_export/vue-note.pdf",
+    "export:pptx": "npm run export -- --timeout 160000 --with-clicks false --format pptx --output ./_export/vue-note.pptx",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@slidev/cli": "52.15.1",
+    "@slidev/client": "52.15.1",
+    "@slidev/theme-default": "latest",
+    "@vueuse/core": "^14.3.0",
+    "vue": "^3.5.33"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/mdi": "^1.2.3",
+    "@slidev/types": "52.14.1",
+    "@vue/compiler-sfc": "^3.5.33",
+    "cross-env": "^10.1.0",
+    "nano-staged": "^0.9.0",
+    "playwright-chromium": "^1.59.1",
+    "prettier": "^3.8.3",
+    "prettier-plugin-slidev": "^1.0.5",
+    "simple-git-hooks": "^2.13.1",
+    "unocss": "66.6.6"
+  },
+  "license": "MIT",
+  "packageManager": "pnpm@10.33.2",
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "vite": "8",
+        "shiki": "4"
+      }
+    }
+  }
+}
