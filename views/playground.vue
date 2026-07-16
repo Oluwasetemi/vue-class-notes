@@ -58,5 +58,5 @@ const load = () => {
   isLoaded.value = true
 }
 
-const goBack = () => router.push('/')
+const goBack = () => window.history.back()
 </script>

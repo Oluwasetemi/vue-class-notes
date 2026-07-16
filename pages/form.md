@@ -13,7 +13,8 @@ hideInToc: true
 - <a @click="$slidev.nav.next()">v-model Basics</a>
 - <a @click="$slidev.nav.go($nav.currentPage+2)">v-model Modifiers</a>
 - <a @click="$slidev.nav.go($nav.currentPage+3)">v-model on Custom Components</a>
-- <a @click="$slidev.nav.go($nav.currentPage+4)">Form Validation Pattern</a>
+- <a @click="$slidev.nav.go($nav.currentPage+4)">defineModel() — Vue 3.4+</a>
+- <a @click="$slidev.nav.go($nav.currentPage+5)">Form Validation Pattern</a>
 
 ---
 hideInToc: true
@@ -164,6 +165,59 @@ const rating = ref(3)
 <Tips type="info">
 
 React achieves this with a `value` prop + `onChange` callback: `<StarRating value={rating} onChange={setRating} />`. Vue's `v-model` on a custom component is sugar for `:modelValue="rating" @update:modelValue="rating = $event"` — the same controlled component pattern, just more concise.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
+## defineModel() — Vue 3.4+
+
+`defineModel()` is a compiler macro that replaces the `modelValue` prop + `update:modelValue` emit boilerplate with a single reactive ref.
+
+```vue {monaco-run}
+<script setup>
+import { ref, defineComponent } from 'vue'
+
+// With defineModel — clean and concise
+const PinInput = defineComponent({
+  setup() {
+    const model = defineModel({ default: '' })
+    return { model }
+  },
+  template: `
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <input
+        :value="model"
+        @input="model = $event.target.value.replace(/\\D/g, '').slice(0, 6)"
+        placeholder="Enter PIN (digits only)"
+        type="text"
+        maxlength="6"
+        style="padding:8px 12px;border:2px solid #42b883;border-radius:6px;font-size:16px;letter-spacing:4px;width:160px;font-family:monospace"
+      />
+      <span style="font-size:11px;color:#888">{{ model.length }}/6 digits</span>
+    </div>
+  `,
+})
+
+const pin = ref('')
+</script>
+
+<template>
+  <div style="padding:16px;font-family:system-ui;display:flex;flex-direction:column;gap:12px">
+    <component :is="PinInput" v-model="pin" />
+    <p style="color:#42b883;font-size:13px;margin:0">
+      PIN: <strong>{{ pin || '—' }}</strong>
+      <span v-if="pin.length === 6" style="margin-left:8px;color:#fbbf24">✓ Complete</span>
+    </p>
+  </div>
+</template>
+```
+
+<Tips type="tip">
+
+`defineModel()` is shorthand for declaring the `modelValue` prop and emitting `update:modelValue`. It returns a writable `ref` — you can read and mutate it directly. For named models, pass a string: `defineModel('count')` enables `v-model:count="n"` on the parent. This eliminates the most repetitive boilerplate in Vue component authoring.
 
 </Tips>
 

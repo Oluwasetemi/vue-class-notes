@@ -3,7 +3,7 @@
     <div
       v-if="!isLoaded"
       class="group absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer transition-all duration-300 min-h-[200px] hover:bg-gray-200 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500"
-      @click="loadIframe"
+      @click="load"
     >
       <div class="text-center text-gray-500 dark:text-gray-400">
         <div v-if="isLoading" class="flex items-center justify-center">
@@ -18,9 +18,7 @@
             ▶
           </div>
           <p class="m-0 text-sm">Click to load iframe</p>
-          <small class="text-xs text-gray-400 truncate max-w-[300px]">{{
-            src
-          }}</small>
+          <small class="text-xs text-gray-400 truncate max-w-[300px]">{{ src }}</small>
         </div>
       </div>
     </div>
@@ -37,14 +35,14 @@
       frameborder="0"
       allowfullscreen
       class="rounded-lg"
-      @load="onIframeLoad"
+      @load="onLoad"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useIntersectionObserver } from '@vueuse/core'
+import { computed, ref } from 'vue'
+import { useLazyLoad } from '../composables/use-lazy-load'
 
 interface Props {
   src: string
@@ -65,35 +63,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const iframeRef = ref<HTMLIFrameElement>()
 const containerRef = ref<HTMLElement>()
-const isLoaded = ref(false)
-const isLoading = ref(false)
+
+const { isLoaded, isLoading, load, onLoad } = useLazyLoad(containerRef, {
+  autoLoad: props.autoLoad,
+})
 
 const iframeStyle = computed(() => props.style || '')
-
-const loadIframe = async () => {
-  if (isLoaded.value || isLoading.value) return
-  isLoading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 100))
-  isLoaded.value = true
-  isLoading.value = false
-}
-
-const onIframeLoad = () => {
-  isLoading.value = false
-}
-
-onMounted(() => {
-  if (props.autoLoad) {
-    const { stop } = useIntersectionObserver(
-      containerRef,
-      ([{ isIntersecting }]) => {
-        if (isIntersecting && !isLoaded.value) {
-          loadIframe()
-          stop()
-        }
-      },
-      { threshold: 0.1 },
-    )
-  }
-})
 </script>

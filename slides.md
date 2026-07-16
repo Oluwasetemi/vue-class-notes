@@ -27,13 +27,15 @@ hideInToc: true
 monacoTypesIgnoreDefaults: true
 ---
 
+<div class="logo mb-4" />
+
 # Vue.js [Class]{.text-8xl.font-hand.mr-4.text-gradient} Notes
 
-The Best Way To Ever Learn Vue.js
+<p class="text-lg text-white/60 mt-1 font-light tracking-wide">The best way to ever learn Vue.js — <span class="text-[#42b883]">AltSchool Africa</span></p>
 
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Ready to build reactive UIs with Vue 3 and the Composition API? Press <kbd>space</kbd> <carbon:arrow-right class="inline"/>
+<div class="pt-10">
+  <span @click="$slidev.nav.next" class="px-4 py-2 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 cursor-pointer transition-all duration-200 text-sm text-white/70 hover:text-white backdrop-blur-sm inline-flex items-center gap-2">
+    Build reactive UIs with Vue 3 &amp; Composition API — press <kbd>space</kbd> <carbon:arrow-right class="inline opacity-70"/>
   </span>
 </div>
 
@@ -63,11 +65,11 @@ hideInToc: true
 
 <Toc columns="2" minDepth="1" maxDepth="2"></Toc>
 
-<div class="flex gap-3 mt-6">
-  <button @click="$router.push('/routes')" class="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 text-sm cursor-pointer hover:bg-blue-500/20 transition-colors flex items-center gap-1.5"><span class="i-mdi-format-list-bulleted inline-block" /> All Sections</button>
-  <button @click="$router.push('/playground')" class="px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm cursor-pointer hover:bg-green-500/20 transition-colors flex items-center gap-1.5"><span class="i-mdi-code-braces inline-block" /> JS/TS Playground</button>
-  <button @click="$router.push('/vue-playground')" class="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm cursor-pointer hover:bg-emerald-500/20 transition-colors flex items-center gap-1.5"><span class="i-logos-vue inline-block" /> Vue Playground</button>
-  <button @click="$router.push('/changelog')" class="px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 text-sm cursor-pointer hover:bg-purple-500/20 transition-colors flex items-center gap-1.5"><span class="i-mdi-history inline-block" /> Changelog</button>
+<div class="flex gap-2 mt-5 flex-wrap">
+  <button @click="$router.push('/routes')" class="badge-blue px-3 py-1.5 text-sm cursor-pointer transition-all duration-200 hover:bg-blue-500/25 flex items-center gap-1.5"><span class="i-mdi-format-list-bulleted" /> All Sections</button>
+  <button @click="$router.push('/playground')" class="badge-vue px-3 py-1.5 text-sm cursor-pointer transition-all duration-200 hover:bg-[#42b883]/25 flex items-center gap-1.5"><span class="i-mdi-code-braces" /> JS/TS Playground</button>
+  <button @click="$router.push('/vue-playground')" class="badge-vue px-3 py-1.5 text-sm cursor-pointer transition-all duration-200 hover:bg-[#42b883]/25 flex items-center gap-1.5"><span class="i-logos-vue" /> Vue Playground</button>
+  <button @click="$router.push('/changelog')" class="badge px-3 py-1.5 text-sm bg-purple-500/15 text-purple-400 border border-purple-400/30 cursor-pointer transition-all duration-200 hover:bg-purple-500/25 flex items-center gap-1.5"><span class="i-mdi-history" /> Changelog</button>
 </div>
 
 ---
@@ -194,6 +196,24 @@ layout: center
 
 ---
 src: ./pages/rendering.md
+---
+
+---
+name: Transitions
+layout: center
+---
+
+<h1 flex="~ col">
+<div text-2xl origin-top-left transition duration-500 :class="$clicks <= 2 ? 'scale-150' : 'op50'">
+  <span v-click>Transitions &amp; </span>
+  <span>Animations</span>
+  <sup v-click>Transition, TransitionGroup, hooks</sup>
+</div>
+<div mt1 forward:delay-300 v-click>Bring your UI to life — enter/leave animations built in ✨</div>
+</h1>
+
+---
+src: ./pages/transitions.md
 ---
 
 ---

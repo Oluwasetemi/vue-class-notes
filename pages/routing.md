@@ -13,8 +13,9 @@ hideInToc: true
 - <a @click="$slidev.nav.next()">Setting Up Vue Router</a>
 - <a @click="$slidev.nav.go($nav.currentPage+2)">RouterView and RouterLink</a>
 - <a @click="$slidev.nav.go($nav.currentPage+3)">Dynamic Routes & Params</a>
-- <a @click="$slidev.nav.go($nav.currentPage+4)">Programmatic Navigation</a>
-- <a @click="$slidev.nav.go($nav.currentPage+5)">Navigation Guards</a>
+- <a @click="$slidev.nav.go($nav.currentPage+4)">Nested & Named Routes</a>
+- <a @click="$slidev.nav.go($nav.currentPage+5)">Programmatic Navigation</a>
+- <a @click="$slidev.nav.go($nav.currentPage+6)">Navigation Guards</a>
 
 ---
 hideInToc: true
@@ -166,6 +167,81 @@ const router = createRouter({
 <Tips type="info">
 
 `useRoute()` ≈ React Router's `useParams()` + `useSearchParams()` combined. `route.params.id` ≈ `params.id`. `route.query.tab` ≈ `searchParams.get('tab')`. Vue combines all route info into one object; React Router splits it into separate hooks.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
+## Nested & Named Routes
+
+Nested routes let parent components own a `<RouterView>` for their children. Named routes enable navigation by name instead of path.
+
+```vue {monaco-run}
+<script setup>
+import { RouterView, RouterLink, createRouter, createMemoryHistory } from 'vue-router'
+
+const UserPosts  = { template: `<div style="padding:10px;color:#60a5fa;font-size:12px">📝 Posts tab</div>` }
+const UserPhotos = { template: `<div style="padding:10px;color:#fbbf24;font-size:12px">📷 Photos tab</div>` }
+
+// Parent component — contains its own <RouterView> for children
+const UserLayout = {
+  template: `
+    <div style="border:1px solid #333;border-radius:0 0 6px 6px">
+      <div style="display:flex;gap:4px;padding:6px;background:#111;border-bottom:1px solid #333">
+        <RouterLink :to="{ name: 'user-posts',  params: { id: 1 } }"
+          style="padding:3px 10px;background:#333;color:#ccc;border-radius:3px;text-decoration:none;font-size:11px">
+          Posts
+        </RouterLink>
+        <RouterLink :to="{ name: 'user-photos', params: { id: 1 } }"
+          style="padding:3px 10px;background:#333;color:#ccc;border-radius:3px;text-decoration:none;font-size:11px">
+          Photos
+        </RouterLink>
+      </div>
+      <RouterView />
+    </div>
+  `
+}
+
+const router = createRouter({
+  history: createMemoryHistory(),
+  routes: [
+    {
+      path: '/users/:id',
+      name: 'user',
+      component: UserLayout,
+      children: [
+        { path: 'posts',  name: 'user-posts',  component: UserPosts },
+        { path: 'photos', name: 'user-photos', component: UserPhotos },
+      ],
+    },
+    { path: '/', redirect: '/users/1/posts' },
+  ],
+})
+</script>
+
+<template>
+  <div style="font-family:system-ui">
+    <nav style="display:flex;gap:6px;padding:8px;background:#1a1a1a;border-radius:6px 6px 0 0">
+      <!-- navigate by name — params are injected automatically -->
+      <RouterLink :to="{ name: 'user-posts',  params: { id: 1 } }"
+        style="padding:4px 10px;background:#42b883;color:white;border-radius:4px;text-decoration:none;font-size:12px">
+        User / Posts
+      </RouterLink>
+      <RouterLink :to="{ name: 'user-photos', params: { id: 1 } }"
+        style="padding:4px 10px;background:#fbbf24;color:#111;border-radius:4px;text-decoration:none;font-size:12px">
+        User / Photos
+      </RouterLink>
+    </nav>
+    <RouterView />
+  </div>
+</template>
+```
+
+<Tips type="info">
+
+React Router achieves nesting with `<Outlet>` in the parent (≈ Vue's nested `<RouterView>`). Named routes (`{ name: 'user-posts' }`) don't have a direct React Router v6 equivalent — React Router uses path-based navigation only. Named routes are useful when paths change: update the route definition in one place, and all `{ name: '...' }` links update automatically.
 
 </Tips>
 

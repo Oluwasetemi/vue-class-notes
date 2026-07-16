@@ -1,5 +1,6 @@
 /* eslint-disable no-new-func */
 import { defineCodeRunnersSetup } from '@slidev/types'
+import { compileSfc, isCompileError } from './compile-sfc'
 
 export default defineCodeRunnersSetup(() => {
   return {
@@ -161,27 +162,12 @@ export default defineCodeRunnersSetup(() => {
     },
 
     async vue(code) {
+      const result = await compileSfc(code)
+      if (isCompileError(result)) throw new Error(result.error)
       const Vue = await import('vue')
-      const { parse, compileScript } = await import('@vue/compiler-sfc')
-
-      const sfc = parse(code)
-      let scripts = compileScript(sfc.descriptor, {
-        id: sfc.descriptor.filename,
-        genDefaultAs: '__Component',
-        inlineTemplate: true,
-      }).content
-
-      scripts = scripts.replace(
-        /import (\{[^}]+\}) from ['"]vue['"]/g,
-        (_, imports) => `const ${imports.replace(/\sas\s/g, ':')} = Vue`,
-      )
-      scripts += '\nreturn __Component'
-
-      const component = new Function(`return (Vue) => {${scripts}}`)()(Vue)
-      const app = Vue.createApp(component)
+      const app = Vue.createApp(result.component as Parameters<typeof Vue.createApp>[0])
       const el = document.createElement('div')
       app.mount(el)
-
       return { element: el }
     },
   }

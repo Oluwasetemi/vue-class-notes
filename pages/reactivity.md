@@ -12,9 +12,10 @@ hideInToc: true
 
 - <a @click="$slidev.nav.next()">ref() — Primitive Reactive State</a>
 - <a @click="$slidev.nav.go($nav.currentPage+2)">reactive() — Object State</a>
-- <a @click="$slidev.nav.go($nav.currentPage+3)">computed() — Derived State</a>
-- <a @click="$slidev.nav.go($nav.currentPage+4)">watch() and watchEffect()</a>
-- <a @click="$slidev.nav.go($nav.currentPage+6)">Lifecycle Hooks</a>
+- <a @click="$slidev.nav.go($nav.currentPage+3)">toRef() and toRefs()</a>
+- <a @click="$slidev.nav.go($nav.currentPage+4)">computed() — Derived State</a>
+- <a @click="$slidev.nav.go($nav.currentPage+5)">watch() and watchEffect()</a>
+- <a @click="$slidev.nav.go($nav.currentPage+7)">Lifecycle Hooks</a>
 
 ---
 hideInToc: true
@@ -97,6 +98,64 @@ const { name, age } = toRefs(user)
 <Tips type="info">
 
 React's equivalent is `useState({ name: 'Ada', age: 36 })` — but React requires **immutable updates** (`setState(prev => ({ ...prev, age: prev.age + 1 }))`). Vue's `reactive()` allows **direct mutation** (`user.age++`). Vue's proxy-based reactivity tracks changes automatically.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
+## toRef() and toRefs() — Safe Destructuring
+
+`toRef()` creates a reactive ref linked to a property of a reactive object. `toRefs()` converts all properties at once — enabling safe destructuring without losing reactivity.
+
+```vue {monaco-run}
+<script setup>
+import { reactive, toRef, toRefs } from 'vue'
+
+const state = reactive({ count: 0, name: 'Vue', theme: 'dark' })
+
+// toRef — link a single property
+const count = toRef(state, 'count')
+
+// toRefs — destructure the whole object safely
+const { name, theme } = toRefs(state)
+</script>
+
+<template>
+  <div style="padding:16px;font-family:system-ui;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;gap:8px;align-items:center">
+      <button @click="count.value++"
+        style="padding:6px 12px;background:#42b883;color:white;border:none;border-radius:4px;cursor:pointer">
+        count++
+      </button>
+      <span>count: <strong>{{ count }}</strong> — state.count: <strong>{{ state.count }}</strong></span>
+    </div>
+
+    <div>
+      <label style="font-size:13px">Name (via toRefs):
+        <input v-model="name"
+          style="margin-left:6px;border:1px solid #42b883;padding:3px 8px;border-radius:4px" />
+      </label>
+      <p style="color:#888;font-size:11px;margin:4px 0 0">state.name = "{{ state.name }}"</p>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center">
+      <button @click="theme.value = theme.value === 'dark' ? 'light' : 'dark'"
+        style="padding:6px 12px;background:#666;color:white;border:none;border-radius:4px;cursor:pointer">
+        Toggle theme
+      </button>
+      <span style="font-size:13px">theme: <strong>{{ theme }}</strong></span>
+    </div>
+
+    <p style="font-size:12px;color:#42b883;margin:0">All changes sync back to the original reactive object ✓</p>
+  </div>
+</template>
+```
+
+<Tips type="tip">
+
+The most common mistake with `reactive()` is destructuring it directly: `const { name } = state` — this creates a plain variable, not a reactive ref. Changes to `name` won't update the template. `toRefs()` fixes this: `const { name } = toRefs(state)` — now `name` is a `Ref<string>` that stays linked. You still need `.value` in `<script>` but not in templates.
 
 </Tips>
 

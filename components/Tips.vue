@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="tip flex flex-col px-4 py-3 rounded mb-4 items-start max-w-[600px] border-l-5"
+    class="tip flex flex-col px-4 py-3 rounded-lg mb-4 items-start max-w-[600px] border-l-4 backdrop-blur-sm"
     :class="[typeConfig.bg, typeConfig.border]"
     :style="{ maxWidth: fullWidth ? '100%' : '' }"
     :role="role"

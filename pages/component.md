@@ -14,6 +14,7 @@ hideInToc: true
 - <a @click="$slidev.nav.go($nav.currentPage+2)">Slots — Content Projection</a>
 - <a @click="$slidev.nav.go($nav.currentPage+3)">provide / inject</a>
 - <a @click="$slidev.nav.go($nav.currentPage+4)">defineExpose</a>
+- <a @click="$slidev.nav.go($nav.currentPage+5)">Multiple v-model Bindings</a>
 
 ---
 hideInToc: true
@@ -222,5 +223,60 @@ const counterRef = ref(null)
 <Tips type="info">
 
 React uses `useImperativeHandle` + `forwardRef` for the same purpose. Vue's `defineExpose` is simpler — no HOC wrapper needed. Both should be used sparingly: prefer props and events for normal communication, and reach for expose only when a parent genuinely needs to call child methods imperatively.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
+## Multiple v-model Bindings (Vue 3.4+)
+
+A component can have multiple named `v-model` bindings — each backed by its own `defineModel()`.
+
+```vue {monaco-run}
+<script setup>
+import { ref, defineComponent } from 'vue'
+
+const RangeControl = defineComponent({
+  setup() {
+    const min = defineModel('min', { default: 0 })
+    const max = defineModel('max', { default: 100 })
+    return { min, max }
+  },
+  template: `
+    <div style="display:flex;flex-direction:column;gap:8px;font-family:system-ui;font-size:13px">
+      <label style="display:flex;align-items:center;gap:8px">
+        Min <strong style="width:24px;color:#42b883">{{ min }}</strong>
+        <input type="range" v-model.number="min" :max="max - 1" min="0"
+          style="flex:1;accent-color:#42b883" />
+      </label>
+      <label style="display:flex;align-items:center;gap:8px">
+        Max <strong style="width:24px;color:#60a5fa">{{ max }}</strong>
+        <input type="range" v-model.number="max" :min="min + 1" max="100"
+          style="flex:1;accent-color:#60a5fa" />
+      </label>
+    </div>
+  `,
+})
+
+const rangeMin = ref(20)
+const rangeMax = ref(80)
+</script>
+
+<template>
+  <div style="padding:16px;font-family:system-ui">
+    <component :is="RangeControl" v-model:min="rangeMin" v-model:max="rangeMax" />
+    <p style="margin-top:12px;font-size:13px;color:#888">
+      Selected range: <strong style="color:#42b883">{{ rangeMin }}</strong>
+      — <strong style="color:#60a5fa">{{ rangeMax }}</strong>
+    </p>
+  </div>
+</template>
+```
+
+<Tips type="tip">
+
+`v-model:min="rangeMin"` is sugar for `:min="rangeMin" @update:min="rangeMin = $event"`. Each named `defineModel('name')` handles one binding independently. This is cleaner than React's pattern of passing `onMinChange` / `onMaxChange` callbacks alongside value props — the symmetry between parent and child is explicit in the template.
 
 </Tips>

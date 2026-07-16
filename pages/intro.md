@@ -14,6 +14,7 @@ hideInToc: true
 - <a @click="$slidev.nav.go($nav.currentPage+2)">Single File Components</a>
 - <a @click="$slidev.nav.go($nav.currentPage+4)">Options API vs Composition API</a>
 - <a @click="$slidev.nav.go($nav.currentPage+6)">The Vue Ecosystem</a>
+- <a @click="$slidev.nav.go($nav.currentPage+7)">Vue DevTools</a>
 
 ---
 hideInToc: true
@@ -161,5 +162,31 @@ hideInToc: true
 <Tips type="tip">
 
 Most tools in the Vue ecosystem have a near-direct React analogue. If you know the React ecosystem, you already understand the *purpose* of each tool — you just need to learn the Vue-specific API.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
+## Vue DevTools
+
+Vue DevTools is a browser extension (Chrome/Firefox) that gives you a live view into your running Vue app.
+
+<v-clicks>
+
+- **Component tree** — inspect every component, its props, data, and computed values in real time
+- **Timeline** — record and replay state changes, events, and performance markers
+- **Pinia inspector** — browse store state, trigger actions, and time-travel to previous states
+- **Router** — see the current route, route history, and matched components
+- **Performance** — profile component render times and spot unnecessary re-renders
+
+</v-clicks>
+
+<div mt-4 />
+
+<Tips type="tip">
+
+Install from the [Chrome Web Store](https://chrome.google.com/webstore/detail/vuejs-devtools) or [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/). The DevTools only activate on pages running Vue in development mode — they're automatically disabled in production builds. React DevTools works identically: same browser extension pattern, same component tree inspection model.
 
 </Tips>

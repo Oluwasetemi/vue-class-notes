@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-const router = useRouter()
 </script>
 
 <template>
@@ -8,7 +6,7 @@ const router = useRouter()
     <header class="mb-8">
       <button
         class="mb-4 text-sm text-green-500 cursor-pointer bg-transparent border-none p-0 hover:underline"
-        @click="router.push('/')"
+        @click="window.history.back()"
       >
         ← Back to slides
       </button>

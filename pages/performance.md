@@ -14,7 +14,8 @@ hideInToc: true
 - <a @click="$slidev.nav.go($nav.currentPage+2)">shallowRef and markRaw</a>
 - <a @click="$slidev.nav.go($nav.currentPage+3)">defineAsyncComponent</a>
 - <a @click="$slidev.nav.go($nav.currentPage+4)">KeepAlive</a>
-- <a @click="$slidev.nav.go($nav.currentPage+5)">Performance Checklist</a>
+- <a @click="$slidev.nav.go($nav.currentPage+5)">v-once — Static Content</a>
+- <a @click="$slidev.nav.go($nav.currentPage+6)">Performance Checklist</a>
 
 ---
 hideInToc: true
@@ -228,11 +229,63 @@ React has no built-in `KeepAlive` — you'd hide components with CSS or lift sta
 hideInToc: true
 ---
 
+## v-once — Static Content Optimization
+
+`v-once` renders an element or component **once** and never updates it again, skipping all future reactivity checks.
+
+```vue {monaco-run}
+<script setup>
+import { ref } from 'vue'
+
+const title = ref('Vue Performance')
+const subtitle = ref('Rendering once is faster than rendering often')
+const liveCounter = ref(0)
+</script>
+
+<template>
+  <div style="padding:16px;font-family:system-ui;font-size:13px;display:flex;flex-direction:column;gap:10px">
+    <!-- v-once: renders exactly once; subsequent changes to title are ignored -->
+    <div style="padding:10px;background:#1a2a1a;border:1px solid #42b883;border-radius:6px">
+      <span style="color:#888;font-size:11px">v-once (frozen at initial render):</span>
+      <h2 v-once style="margin:4px 0;color:#42b883;font-size:15px">{{ title }}</h2>
+      <p v-once style="margin:0;color:#aaa;font-size:12px">{{ subtitle }}</p>
+    </div>
+
+    <!-- live: updates every render -->
+    <div style="padding:10px;background:#1a1a2a;border:1px solid #60a5fa;border-radius:6px">
+      <span style="color:#888;font-size:11px">Normal (updates reactively):</span>
+      <h2 style="margin:4px 0;color:#60a5fa;font-size:15px">{{ title }}</h2>
+    </div>
+
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input v-model="title" placeholder="Change title..."
+        style="padding:5px 8px;border:1px solid #42b883;border-radius:4px;background:#111;color:#e5e5e5;font-size:12px;flex:1;min-width:0" />
+      <button @click="liveCounter++"
+        style="padding:5px 10px;background:#a78bfa;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap">
+        Force re-render ({{ liveCounter }})
+      </button>
+    </div>
+    <p style="color:#555;font-size:11px;margin:0">Edit the title — the v-once block stays frozen, the normal block updates.</p>
+  </div>
+</template>
+```
+
+<Tips type="tip">
+
+Use `v-once` for static content that is set once from configuration or props but never changes during the component's lifetime — page headers, help text, legal disclaimers, large static tables. React's equivalent is `useMemo(() => <ExpensiveMarkup />, [])` — but Vue's `v-once` is zero boilerplate and works at the template level without extracting a component.
+
+</Tips>
+
+---
+hideInToc: true
+---
+
 ## Performance Checklist
 
 <v-clicks>
 
 - **Lazy-load routes** — `component: () => import('./Page.vue')` in every route
+- **`v-once` for static content** — skip reactivity checks entirely on frozen subtrees
 - **`v-memo` for large lists** — prevents re-rendering unchanged `v-for` rows
 - **`shallowRef` for large data** — avoids deep reactive traversal of API responses
 - **`markRaw` for third-party objects** — class instances, DOM nodes, external lib objects

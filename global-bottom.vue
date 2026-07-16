@@ -44,7 +44,7 @@ const displayCount = computed(() => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      <GitHub style="font-size: 1em" />
+      <GitHub class="text-1em" />
       @Oluwasetemi
     </a>
   </footer>
