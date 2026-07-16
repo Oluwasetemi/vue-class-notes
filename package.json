@@ -12,33 +12,41 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@slidev/cli": "52.15.1",
-    "@slidev/client": "52.15.1",
+    "@slidev/cli": "52.18.0",
+    "@slidev/client": "52.18.0",
     "@slidev/theme-default": "latest",
     "@vueuse/core": "^14.3.0",
-    "vue": "^3.5.33"
+    "vue": "^3.5.39"
   },
   "devDependencies": {
     "@iconify-json/logos": "^1.2.11",
     "@iconify-json/mdi": "^1.2.3",
-    "@slidev/types": "52.14.1",
-    "@vue/compiler-sfc": "^3.5.33",
+    "@slidev/types": "52.18.0",
+    "@vue/compiler-sfc": "^3.5.39",
     "cross-env": "^10.1.0",
-    "nano-staged": "^0.9.0",
-    "playwright-chromium": "^1.59.1",
-    "prettier": "^3.8.3",
+    "esbuild": "^0.28.1",
+    "markdown-it-magic-link": "^0.1.4",
+    "nano-staged": "^1.0.2",
+    "playwright-chromium": "^1.61.1",
+    "prettier": "^3.9.5",
     "prettier-plugin-slidev": "^1.0.5",
+    "shiki": "^4.3.1",
     "simple-git-hooks": "^2.13.1",
-    "unocss": "66.6.6"
+    "unocss": "66.6.6",
+    "vite": "^8.1.4",
+    "vue-router": "^5.2.0"
   },
   "license": "MIT",
-  "packageManager": "pnpm@10.33.2",
+  "packageManager": "pnpm@11.13.1",
   "pnpm": {
     "peerDependencyRules": {
       "allowedVersions": {
         "vite": "8",
         "shiki": "4"
       }
+    },
+    "patchedDependencies": {
+      "@comark/markdown-it@0.3.4": "patches/@comark__markdown-it@0.3.4.patch"
     }
   }
 }
