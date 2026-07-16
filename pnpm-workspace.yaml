@@ -1,0 +1,8 @@
+allowBuilds:
+  esbuild: true
+  playwright-chromium: true
+  simple-git-hooks: true
+onlyBuiltDependencies:
+  - esbuild
+  - playwright-chromium
+  - simple-git-hooks

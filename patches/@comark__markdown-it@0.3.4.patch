@@ -1,0 +1,13 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 1533385d7643982a6cccc7c403e5abc64e44f1f0..d8075b0c135ee49f42dd0ba15b44016357d2a4d1 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -665,7 +665,7 @@ function wrapRenderInline(renderInline) {
+             break;
+           }
+         }
+-        if (!prev.tag && prev.type === "text") {
++        if (prev && !prev.tag && prev.type === "text") {
+           prev = new TokenClass("mdc_inline_span", "span", 1);
+           tokens.splice(index - 1, 0, prev);
+           const close = new TokenClass("mdc_inline_span", "span", -1);
